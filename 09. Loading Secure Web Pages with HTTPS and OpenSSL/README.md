@@ -138,7 +138,7 @@ ex) 1 host, multiple server = same ip and multiple certification
 
 ### +) SSH (Secure Shell)
 
-- `Application layer` and a suite of tools used for secure remote access
+- `Application layer & Transport layer` and a suite of tools used for secure remote access
 - Desgin to provide strong encryption, authentication and integrity
 
 <br/>
@@ -146,10 +146,18 @@ ex) 1 host, multiple server = same ip and multiple certification
 - Do not perform the same 3 way handshake as the TCP/IP 
 - But `SSH handshake`, which is part of the SSH protocol's initial connection setup
 - **This handshake takes place over the SSH transport layer not the application layer**
+- Provide secure communication by encrypting and transmitting data over a secure channel using a protocol like TCP
+
+### +) MAC Algorithm (Message Authentication Code)
+
+- MAC algorithm (e.g., HMAC (Hash based Message Authentication Code) with SHA-256)
+	- Combines SHA-256 (hash algorithm) with a secret key to generate MAC tags for message authentication
+	- MAC algorithm is not hash algorithm
+
+- Use shared secret key and the chosen MAC algorithm to compute the MAC tag for the message
+- Use shared secret key and the same MAC algorithm to compute a MAC tag for the received message
 
 
 ## OpenSSL
 
 - Widely used open source library that provides SSL and TLS services to applications
-
-- 
