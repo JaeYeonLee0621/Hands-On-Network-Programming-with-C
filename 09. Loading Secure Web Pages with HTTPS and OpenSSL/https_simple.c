@@ -35,10 +35,25 @@ int main(int argc, char *argv[]) {
     }
 #endif
 
+    // Required to initialized the OpenSSL library
     SSL_library_init();
+
+    // OpenSSL to load all available algorithms
     OpenSSL_add_all_algorithms();
+
+    // cause OpenSSL to load error strings
     SSL_load_error_strings();
 
+    /*
+    SSL_CTX
+    - Hold the initial settings that you want to use for your connections
+    - Only one SSL_CTX object and can reuse it for all their connections
+
+    TLS_client_method
+    - indicates that we want general-purpose, version-flexible TLS methods available
+    - automatically negotitates the best mutually supported algorithm with the server upon connecting
+    */
+    
     SSL_CTX *ctx = SSL_CTX_new(TLS_client_method());
     if (!ctx) {
         fprintf(stderr, "SSL_CTX_new() failed.\n");
@@ -92,19 +107,22 @@ int main(int argc, char *argv[]) {
 
     printf("Connected.\n\n");
 
-
+    // Once TCP connection is established you can initiate a TLS connection
     SSL *ssl = SSL_new(ctx);
     if (!ssl) {
         fprintf(stderr, "SSL_new() failed.\n");
         return 1;
     }
 
+    // Open SSL to use SNI
+    // without it server does not know which certificate to send in the case that it hosts more than one site
     if (!SSL_set_tlsext_host_name(ssl, hostname)) {
         fprintf(stderr, "SSL_set_tlsext_host_name() failed.\n");
         ERR_print_errors_fp(stderr);
         return 1;
     }
 
+    // initiate the new TLS/SSL connection on our existing TCP socket
     SSL_set_fd(ssl, server);
     if (SSL_connect(ssl) == -1) {
         fprintf(stderr, "SSL_connect() failed.\n");
@@ -115,6 +133,19 @@ int main(int argc, char *argv[]) {
     printf ("SSL/TLS using %s\n", SSL_get_cipher(ssl));
 
 
+    /* 
+    get the server's certificate
+
+    1. Verify Certificate
+    2. Check which certificate authorities we trust
+
+    - OS provides a list of trusted certificates
+    - But there is not general, easy way to import these lists
+    - Using the OS's default list is also not always appropriate for every application
+    - For that reasons, certificate veritifcation has been omitted from the examples in this chapter
+
+    - It is also important to validate that the certificate is actually valid for the particular server you're connected with
+    */
     X509 *cert = SSL_get_peer_certificate(ssl);
     if (!cert) {
         fprintf(stderr, "SSL_get_peer_certificate() failed.\n");

@@ -149,3 +149,7 @@ ex) 1 host, multiple server = same ip and multiple certification
 
 
 ## OpenSSL
+
+- Widely used open source library that provides SSL and TLS services to applications
+
+- 
