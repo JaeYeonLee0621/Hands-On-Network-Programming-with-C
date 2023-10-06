@@ -21,6 +21,7 @@
 
 - A scret key is used with the cipher to produce a ciphertext
 
+<br/>
 
 - **American Encryption Standard (AES)**
 - Camellia
@@ -32,8 +33,11 @@
 - Salsa20, Chacha20
 - **Tiny Encryption Algorithm (TEA)**
 
+<br/>
 
 - The most common key exchange algorithm in use today is the **Diffie-Hellman key exchange algorithm**
+
+<br/>
 
 +) **man-in-the-middle**
 
@@ -43,10 +47,12 @@
 
 - public-key encryption, attempts to solve the key exchange and authentication problems of symmetric encryption
 
+<br/>
 
 - One key can encrypt data, while the other key can decrypt it (Public Key, Private Key)
 - These key are generated together and related mathmatically
 
+<br/>
 
 - `Rivest-Shamir-Adleman (RSA)` cipher is one of the first public-key ciphers
 - `Elliptic-Curve Cryptography (ECC)` cipher promise greater efficiency and are quickly gaining market share
@@ -57,11 +63,13 @@
 - `TLS` can also use digital signatures to authenticate the client
 - Asymmetric encryption could be used to protect an entire communication channel
 
+<br/>
 
 - In practice, **modern asymmetric ciphers are inefficient and only able to protect small amounts of data**
 - For this reason, **symmetric ciphers are preferred whenever possible**
 - TLS uses asymmetric ciphers only to authenticate the server
 
+<br/>
 
 +) **cipher suites** : `key exchange algorithm`, `bulk encryption algorithm`, `message authenication algorithm (MAC)`
 
@@ -75,13 +83,16 @@
 - Certificate chains can be several layers deep
 - As long as you can verify digital signature back to a certificate you trust, you are able to validate the whole chain
 
+<br/>
 
 - This method is the common one used by HTTPS to authenticate servers
 - `IdenTrust`, `Comodo`, `DigiCert`, `GoDaddy`, `GlobalSign` : precceding certificate authorities are responsible for over 90% of the HTTPS certificates found on the web
 
+<br/>
 
 - Certificates are usually matched to domain names, also possible for them to identify other information
 
+<br/>
 
 - Is's common today for one server to host many different domains and each domain requires its own certificate
 
@@ -98,17 +109,21 @@ ex) 1 host, multiple server = same ip and multiple certification
 - A technique that when used by TLS requires the client to indicate to the server which domain it is attmpting to conenct
 - The server can then find a matching certificate to use for the TLS connection
 
+<br/>
 
 - SNI is relatively new and older browsers and servers do not support it
 - Before SNI was popular servers had 2 choices, they could either host only one domain per IP address, or they could send certificates for all hosted domains for each connection
 
+<br/>
 
 - Commonly Client initiates the connection to a server so already know the server's hostname
 - However some scenario where the client might not have prior knowledge of the server's information
 
+<br/>
 
 - When you open a web browser and **access a website via HTTPS**, your **browser sends an SSL/TLS handshake request that often includes the SNI extension**. This is a standard practice for modern web browsers.
 
+<br/>
 
 - It should be noted that SNI involves sneding the unencrypted domain name over the network
 
@@ -116,6 +131,7 @@ ex) 1 host, multiple server = same ip and multiple certification
 
 - not widely deployed yet
 
+<br/>
 
 > With a basic understanding of the TLS protocol, we;re ready to look at the most popular library, **OpenSSL**
 
@@ -125,7 +141,11 @@ ex) 1 host, multiple server = same ip and multiple certification
 - `Application layer` and a suite of tools used for secure remote access
 - Desgin to provide strong encryption, authentication and integrity
 
+<br/>
 
 - Do not perform the same 3 way handshake as the TCP/IP 
 - But `SSH handshake`, which is part of the SSH protocol's initial connection setup
 - **This handshake takes place over the SSH transport layer not the application layer**
+
+
+## OpenSSL
