@@ -130,8 +130,7 @@ int main(int argc, char *argv[])
     }
 
 
-
-
+    // SSH session is open and the user is authenticated, a channel can be opened
     ssh_channel channel = ssh_channel_new(ssh);
     if (!channel) {
         fprintf(stderr, "ssh_channel_new() failed.\n");
@@ -167,6 +166,7 @@ int main(int argc, char *argv[])
 
     printf("\n");
 
+    // EOF (End-Of-File) : close the channel and free the channel resouces
     ssh_channel_send_eof(channel);
     ssh_channel_close(channel);
     ssh_channel_free(channel);

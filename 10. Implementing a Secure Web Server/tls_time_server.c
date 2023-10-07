@@ -34,7 +34,8 @@ int main() {
     }
 #endif
 
-
+    // Initializes the OpenSSL library
+    // loads the requisite encryption algorithms and loads useful error strings
     SSL_library_init();
     OpenSSL_add_all_algorithms();
     SSL_load_error_strings();
@@ -45,7 +46,8 @@ int main() {
         return 1;
     }
 
-
+    // SSL context has been created,
+    // We can associate our server's certificate with it
     if (!SSL_CTX_use_certificate_file(ctx, "cert.pem" , SSL_FILETYPE_PEM)
     || !SSL_CTX_use_PrivateKey_file(ctx, "key.pem", SSL_FILETYPE_PEM)) {
         fprintf(stderr, "SSL_CTX_use_certificate_file() failed.\n");
@@ -112,6 +114,8 @@ int main() {
         printf("%s\n", address_buffer);
 
 
+        // After a new TCP connection is established
+        // SSL objects created using our SSL context from earlier
         SSL *ssl = SSL_new(ctx);
         if (!ssl) {
             fprintf(stderr, "SSL_new() failed.\n");
@@ -119,6 +123,8 @@ int main() {
         }
 
         SSL_set_fd(ssl, socket_client);
+
+        // Establish the TLS/SSL connection
         if (SSL_accept(ssl) <= 0) {
             fprintf(stderr, "SSL_accept() failed.\n");
             ERR_print_errors_fp(stderr);
@@ -155,7 +161,7 @@ int main() {
         bytes_sent = SSL_write(ssl, time_msg, strlen(time_msg));
         printf("Sent %d of %d bytes.\n", bytes_sent, (int)strlen(time_msg));
 
-
+        // It is important to free resources
         printf("Closing connection...\n");
         SSL_shutdown(ssl);
         CLOSESOCKET(socket_client);

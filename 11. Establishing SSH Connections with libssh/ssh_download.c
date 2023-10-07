@@ -129,15 +129,14 @@ int main(int argc, char *argv[])
         printf("Authentication successful!\n");
     }
 
-
-
     printf("Remote file to download: ");
     char filename[128];
     fgets(filename, sizeof(filename), stdin);
     filename[strlen(filename)-1] = 0;
 
-
-
+    // SCP (Secure Copy Protocol)
+    // - Provide a method to transfer files
+    // - Support both uploading and downloading files
     ssh_scp scp = ssh_scp_new(ssh, SSH_SCP_READ, filename);
     if (!scp) {
         fprintf(stderr, "ssh_scp_new() failed.\n%s\n",
@@ -151,7 +150,8 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-
+    // Must be called to begin the file download
+    // Indicate that the remote host is going to begin sending a new file
     if (ssh_scp_pull_request(scp) != SSH_SCP_REQUEST_NEWFILE) {
         fprintf(stderr, "ssh_scp_pull_request() failed.\n%s\n",
                 ssh_get_error(ssh));
@@ -167,12 +167,14 @@ int main(int argc, char *argv[])
             fname, fsize, fpermission);
     free(fname);
 
+    // Allocate space to store it in memory
     char *buffer = malloc(fsize);
     if (!buffer) {
         fprintf(stderr, "malloc() failed.\n");
         return 1;
     }
 
+    // Download file
     ssh_scp_accept_request(scp);
     if (ssh_scp_read(scp, buffer, fsize) == SSH_ERROR) {
         fprintf(stderr, "ssh_scp_read() failed.\n%s\n",
@@ -184,6 +186,8 @@ int main(int argc, char *argv[])
     printf("%.*s\n", fsize, buffer);
     free(buffer);
 
+    // We received the entire file from the remote host
+    // Checks for the EOF request from the remote host
     if (ssh_scp_pull_request(scp) != SSH_SCP_REQUEST_EOF) {
         fprintf(stderr, "ssh_scp_pull_request() unexpected.\n%s\n",
                 ssh_get_error(ssh));

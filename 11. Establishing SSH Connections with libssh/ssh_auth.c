@@ -41,6 +41,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    // libssh library lets us provide the authentication information
     ssh_options_set(ssh, SSH_OPTIONS_HOST, hostname);
     ssh_options_set(ssh, SSH_OPTIONS_PORT, &port);
     ssh_options_set(ssh, SSH_OPTIONS_USER, user);
@@ -73,16 +74,17 @@ int main(int argc, char *argv[])
         return -1;
     }
 
+    // libssh prints SHA1 hashes using Base64
     printf("Host public key hash:\n");
     ssh_print_hash(SSH_PUBLICKEY_HASH_SHA1, hash, hash_len);
 
+    // Free their resources
     ssh_clean_pubkey_hash(&hash);
     ssh_key_free(key);
 
-
-
-
     printf("Checking ssh_session_is_known_server()\n");
+
+    // determine whether a server's public key is known
     enum ssh_known_hosts_e known = ssh_session_is_known_server(ssh);
     switch (known) {
         case SSH_KNOWN_HOSTS_OK: printf("Host Known.\n"); break;
@@ -111,14 +113,20 @@ int main(int argc, char *argv[])
             return 0;
         }
 
+        // Allow libssh to save the servers public key hash
         ssh_session_update_known_hosts(ssh);
     }
 
 
 
     printf("Password: ");
+
+    // fgets causes the entered password to display on the screen
+    // If you're using Linux, consider using the getpass() function in place of fgets()
     char password[128];
     fgets(password, sizeof(password), stdin);
+
+    // Removing the newline character
     password[strlen(password)-1] = 0;
 
     if (ssh_userauth_password(ssh, 0, password) != SSH_AUTH_SUCCESS)

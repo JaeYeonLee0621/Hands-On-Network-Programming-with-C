@@ -36,6 +36,7 @@ int main(int argc, char *argv[])
     if (argc > 2) port = atol(argv[2]);
 
 
+    // new SSH session object and stores it in the ssh variable
     ssh_session ssh = ssh_new();
     if (!ssh) {
         fprintf(stderr, "ssh_new() failed.\n");
@@ -45,9 +46,11 @@ int main(int argc, char *argv[])
     ssh_options_set(ssh, SSH_OPTIONS_HOST, hostname);
     ssh_options_set(ssh, SSH_OPTIONS_PORT, &port);
 
+    // libssh to print almost everything it does
     int verbosity = SSH_LOG_PROTOCOL;
     ssh_options_set(ssh, SSH_OPTIONS_LOG_VERBOSITY, &verbosity);
 
+    // Initiate the SSH connection
     int ret = ssh_connect(ssh);
     if (ret != SSH_OK) {
         fprintf(stderr, "ssh_connect() failed.\n%s\n", ssh_get_error(ssh));
@@ -56,6 +59,8 @@ int main(int argc, char *argv[])
 
     printf("Connected to %s on port %d.\n", hostname, port);
 
+    // Banner : SSH protocol allows servers to send a message to clients upon connetin
+    // Use to identify the server or provide short access rule
     printf("Banner:\n%s\n", ssh_get_serverbanner(ssh));
 
     ssh_disconnect(ssh);
