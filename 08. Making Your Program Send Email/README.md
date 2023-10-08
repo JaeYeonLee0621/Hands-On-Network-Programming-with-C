@@ -119,10 +119,31 @@ S: 221 closing connection
 - authenticate email using digital signature
 - treat non-DKIM mail as spam
 
+**[How to publish DKIM]**
+
+1. Log in to your email server and find the DKIM key generation section
+
+2. Generate a pair of **DKIM key (private and public key)** published in your DNS records for verification
+
+3. Publish the public key in DNS
+
+- in the DNS TXT record's value, paste the public DKIM key
+
+4. Access the your email server and enter the private DKIM key
+
+5. Test DKIM
+
+- Send a test email from your domain to an email account
+
++) When you use Gmail for sending emails through your Google account, Google automatically handles the DKIM signing of your outgoing emails
+
 ## [Domain-based Message Authentication, Reporting and Conformance (DMARC)]
 
+- **A feature that helps check the authentication of email messages including DKIM mechanism or SPF**
 - domain to publish whether SPF and/or DKIM is required of mail originating from them, among other things
+- Protecting their domains from email spoofing, phishig etc
+- Provide mechanisms for receiving feedback and reports on email authentication results
 
+<br/>
 
 - If you're sending email without these, your email will either be rejected outright or labeled as spam
-

@@ -31,8 +31,8 @@ ex) Mac OS, Linux
 ### Raw Sockets
 
 - The socket programming APIs we've been working with do not provide access at the IP level that the ICMP is built on
-- a C program can construct the exact IP packet to send
-- a C programmer could construct an ICMP packet from acratch and send it over the network
+- a C program can **construct the exact IP packet to send**
+- a C programmer could construct an ICMP packet from scratch and send it over the network
 
 <br/>
 

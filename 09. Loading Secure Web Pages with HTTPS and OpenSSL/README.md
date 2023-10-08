@@ -9,7 +9,7 @@
 - `TLS` : most commonly used for HTTPS security
 - secure many other TCP-based protocols
 
-# [Encryption bascis]
+# [Encryption basics]
 
 - Method of encoding data so that only authorized parties can access it
 - Encryption algorithm = **ciphers** > **ciphertext**

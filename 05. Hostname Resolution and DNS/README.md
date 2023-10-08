@@ -11,15 +11,15 @@
 	 	- It it set by the DNS server repsonsible for the hostname
 
  	2. (is not found) OS will need to query a DNS server
- 		- ISP (Internet Service Provider) but also many publicly-available DNS servers
+ 		- not only ISP (Internet Service Provider) but also many publicly-available DNS servers
  		- DNS server receives a query, it also checks its local cache
 
  	3. (if DNS server don't have) Needs to query other DNS servers until it connects directly to the DNS server responsible for the target system
 
 		1. First connects to a root DNS server and asks for www.example.com
 		2. The root DNS server directs it to ask the .com server
-		3. Our client's DNS server then connects to the server responsible for .com and asks for www.example.com
-		4. The .com DNS server gives our server the address of another server
+		3. Our client's DNS server then connects to the server responsible for `.com` and asks for www.example.com
+		4. The `.com` DNS server gives our server the address of another server
 		5. Our DNS server finally connects to that server and asks about the record for www.example.com
 		6. The www.example.com server then shares the address of www.example.com
 		7. Our client's DNS server relays it back to our client
@@ -71,5 +71,5 @@
 
 # [Endianness]
 
-- The order in which individual bytes are stored in memroy or sent over a network
+- The order in which individual bytes are stored in memory or sent over a network
 - Whenever we read a multi-byte number from a DNS message, we should be aware that it's in big-endian format (network byte order)

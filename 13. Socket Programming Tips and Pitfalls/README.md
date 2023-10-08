@@ -142,7 +142,7 @@ ex)
 
 ## [Preventing address-in-use errors]
 
-- When an application initiates a TCP socket close, that socket goes into the TIME-WAIT state
+- When an application initiates a TCP socket close, that socket goes into the `TIME-WAIT` state
 - OS continues to keep track of this socket for some time, potentially minutes
 
 <br/>
@@ -152,25 +152,26 @@ ex)
 ### [3 basic way a TCP connection can fail]
 
 **1. A network outage**
-- TCP tries to retransmit data
-- If connectivity is re-established, TCP simply picks back up where it left off
+
+- `TCP tries to retransmit data`
+- If connectivity is `re-established, TCP simply picks back up where it left off`
 - The connection eventually time out, This timeout can be on the order of 10 minutes
 
 **2. The peer application crashes**
 
-- The peer's OS sends a FIN mssage
-- If your applicatio continues to send data after having received the FIN message, <u>the peer's system will send a RST message to indicate the error</u>
+- The peer's OS sends a FIN message
+- If your application continues to send data after having received the FIN message, <u>the peer's system will send a **RST message** to indicate the error</u>
 
 **3. The peer's system crashes**
 
 - Peer's whole system has crashed
 - It won't be able to send a FIN message
 - This case looks the same as a network outage, TCP connection would eventually timeout
-- The rebooted system will not recognize the TCP connection and will send an RST message in response to indicate an error condition
+- The rebooted system **will not recognize the TCP connection and will send an RST message in response to indicate an error condition**
 
 <br/>
 
-- What happens when `send()` is called on a socket that has already received an RST message from its peer
+- What happens when `send()` is called on a socket that has already received an **RST message from its peer**
 - the default is to occur a `SIGPIPE` signal to your program
 - If you don't handle this signal, the OS will terminate your program
 

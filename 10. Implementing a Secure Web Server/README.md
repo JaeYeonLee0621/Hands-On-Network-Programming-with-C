@@ -73,3 +73,12 @@ ex) VPN etc
 - Your program communicates directly with a standard web server
 - The web server handles all of the HTTPS and HTTP details
 
+
+**+) WSGI**
+
+- Without Nginx or a similar web server acting as a reverse proxy to handle SSL/TLS termination, the responsibility for handling TLS/SSL encryption and decryption typically falls directly on the WSGI server itself. 
+- This means that the WSGI server needs to be configured to handle HTTPS traffic, including certificate management and encryption.
+
+<br/>
+
+- Popular WSGI servers like Gunicorn and uWSGI can be configured to support HTTPS, but this approach is less common in production deployments because it may **not provide the same level of security, performance, and flexibility as using a dedicated web server like Nginx or Apache for SSL/TLS termination.**
