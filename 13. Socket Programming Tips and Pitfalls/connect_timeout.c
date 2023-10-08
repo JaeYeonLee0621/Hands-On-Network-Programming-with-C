@@ -76,6 +76,7 @@ int main(int argc, char *argv[]) {
     }
 
 
+// Setting the socket to non-blocking mode,
 #if defined(_WIN32)
     unsigned long nonblock = 1;
     ioctlsocket(socket_peer, FIONBIO, &nonblock);
@@ -85,6 +86,7 @@ int main(int argc, char *argv[]) {
     fcntl(socket_peer, F_SETFL, flags | O_NONBLOCK);
 #endif
 
+// connect() is done normally
     printf("Connecting...\n");
     int ret;
     if ((ret = connect(socket_peer,
@@ -97,6 +99,7 @@ int main(int argc, char *argv[]) {
 
     freeaddrinfo(peer_address);
 
+// Setting the socket back to non-blocking mode
 #if defined(_WIN32)
     nonblock = 0;
     ioctlsocket(socket_peer, FIONBIO, &nonblock);
@@ -112,6 +115,7 @@ int main(int argc, char *argv[]) {
     } else {
         printf("Waiting up to 5 seconds for connection...\n");
 
+// The setup for select() is straightforward
         fd_set set;
         FD_ZERO(&set);
         FD_SET(socket_peer, &set);

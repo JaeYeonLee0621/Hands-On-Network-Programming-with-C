@@ -57,6 +57,9 @@ int main() {
 
     printf("Binding socket to local address...\n");
 
+    // Connection are stuck in the TIME-WAIT state on LINUX
+    // The failure of bind() call can be prevented by setting the SO_REUSEADDR flag
+    // Once the SO_REUSEADDR flag is set, bind() succeeds event if a few TIME-WAIT connections are still hanging on to the same local port and address
     int yes = 1;
     if (setsockopt(socket_listen, SOL_SOCKET, SO_REUSEADDR, (void*)&yes, sizeof(yes)) < 0) {
         fprintf(stderr, "setsockopt() failed. (%d)\n", GETSOCKETERRNO());
